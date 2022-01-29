@@ -2,15 +2,21 @@ import React, { Component } from 'react'
 
 export class NewsItem extends Component {
     render() {
-        let {title, description, imageUrl} = this.props
+        let myStyle = {
+            width: '100%', 
+            height: '200px'
+            // -webkit-box-shadow: '-1px -3px 5px -2px rgba(214,214,214,1)'
+
+        }
+        let {title, description, imageUrl, url} = this.props
         return (
             <div>
-                <div class="card" style={{width: "18rem"}}>
-                    <img src={imageUrl} class="card-img-top" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title">{title}</h5>
-                            <p class="card-text">{description}</p>
-                            <a href="/" class="btn btn-sm btn-outline-primary">News Details</a>
+                <div className="card" style={{width: "18rem", backgroundColor: 'rgb(46 56 76)', color: "#fff"}}>
+                    <img src={imageUrl} className="card-img-top" style={myStyle} alt="..."/>
+                        <div className="card-body">
+                            <h5 className="card-title">{title}</h5>
+                            <p className="card-text">{description}</p>
+                            <a href={url} target="_blank" className="btn btn-sm btn-outline-success" style={{fontSize: '17px'}}>News Details</a>
                         </div>
                 </div>
             </div>
