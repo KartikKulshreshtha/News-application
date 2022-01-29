@@ -2,31 +2,80 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 
 export class News extends Component {
+    
     constructor() {
         super();
         this.state = {
             articles: [],
-            loading: false
+            loading: false,
+            page: 1,
+            pageSize: 18
         }
     }
 
+    
     async componentDidMount() {
-        let url = "https://newsapi.org/v2/everything?q=tesla&from=2021-12-29&sortBy=publishedAt&apiKey=860b34ffb785421aa5e09ff7c5c99c44";
+        let url = `https://newsapi.org/v2/everything?q=tesla&from=2021-12-29&sortBy=publishedAt&apiKey=860b34ffb785421aa5e09ff7c5c99c44&page=${this.state.page}&pageSize=${this.state.pageSize}`;
         let data = await fetch(url);
         let parsedData = await data.json()
         this.setState({ articles: parsedData.articles })
+    }
 
+    // handlePagging = async ()=>{
+    //     if(document.getElementById("Prev").innerHTML === ' &larr; Previous'){
+    //         let url = `https://newsapi.org/v2/everything?q=tesla&from=2021-12-29&sortBy=publishedAt&apiKey=860b34ffb785421aa5e09ff7c5c99c44&page=${this.state.page-1}&pageSize=${this.state.pageSize}`;
+    //         let data = await fetch(url);
+    //         let parsedData = await data.json()
+    //         this.setState({ 
+    //             page: this.state.page - 1 ,
+    //             articles: parsedData.articles
+    //      })
+    //     }
+    //     if(document.getElementById('Next').innerHTML === 'Next &rarr;'){
+    //         let url = `https://newsapi.org/v2/everything?q=tesla&from=2021-12-29&sortBy=publishedAt&apiKey=860b34ffb785421aa5e09ff7c5c99c44&page=${this.state.page+1}&pageSize=${this.state.pageSize}`;
+    //         let data = await fetch(url);
+    //         let parsedData = await data.json()
+    //         this.setState({ 
+    //         page: this.state.page + 1,
+    //         articles: parsedData.articles
+    //      })
+    //     }
+    // }
+
+    handlePrev = async ()=>{
+        let url = `https://newsapi.org/v2/everything?q=tesla&from=2021-12-29&sortBy=publishedAt&apiKey=860b34ffb785421aa5e09ff7c5c99c44&page=${this.state.page-1}&pageSize=${this.state.pageSize}`;
+        let data = await fetch(url);
+        let parsedData = await data.json()
+        this.setState({ 
+            page: this.state.page - 1 ,
+            articles: parsedData.articles
+         })
+    }
+    handleNext = async ()=>{
+        let url = `https://newsapi.org/v2/everything?q=tesla&from=2021-12-29&sortBy=publishedAt&apiKey=860b34ffb785421aa5e09ff7c5c99c44&page=${this.state.page+1}&pageSize=${this.state.pageSize}`;
+        let data = await fetch(url);
+        let parsedData = await data.json()
+        this.setState({ 
+            page: this.state.page + 1,
+            articles: parsedData.articles
+         })
     }
     render() {
         return (
             <div className='container my-3'>
                 <h2 className='my-5 text-center text-light'>DekhoNews - Top Headlines</h2>
+                <h4 className='text-center text-light'>{`Page - ${this.state.page}`}</h4>
                 <div className="row">
                     {this.state.articles.map((element) => {
                         return <div className="col-md-4 my-3" key={element.url}>
                             <NewsItem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 88) : ""} imageUrl={element.urlToImage} url={element.url} />
                         </div>
                     })}
+                </div>
+                <div className="container d-flex justify-content-between">
+                <button hidden={this.state.page === 1} onClick={this.handlePrev} id='Prev' type="button" className="btn btn-primary"> &larr; Previous</button>
+                <button onClick={this.handleNext} id='Next' type="button" className="btn btn-primary">Next &rarr;</button>
+
                 </div>
             </div>
         )

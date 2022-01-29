@@ -12,7 +12,7 @@ export class NewsItem extends Component {
         return (
             <div>
                 <div className="card" style={{width: "18rem", backgroundColor: 'rgb(46 56 76)', color: "#fff"}}>
-                    <img src={imageUrl} className="card-img-top" style={myStyle} alt="..."/>
+                    <img src={!imageUrl?'https://c.ndtvimg.com/2022-01/1bq59k5s_tesla_625x300_29_January_22.jpg':imageUrl} className="card-img-top" style={myStyle} alt="..."/>
                         <div className="card-body">
                             <h5 className="card-title">{title}</h5>
                             <p className="card-text">{description}</p>
