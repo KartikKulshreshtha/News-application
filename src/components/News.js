@@ -36,8 +36,8 @@ const News = (props) => {
         updateNews();
     }, [])
     const fetchMoreData = async () => {
+        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=860b34ffb785421aa5e09ff7c5c99c44&page=${page+1}&pageSize=${pageSize}`;
         setPage(page + 1)
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=860b34ffb785421aa5e09ff7c5c99c44&page=${page}&pageSize=${pageSize}`;
         let data = await fetch(url);
         let parsedData = await data.json()
         setArticles(articles.concat(parsedData.articles))
@@ -45,7 +45,7 @@ const News = (props) => {
     }
     return (
         <>
-            <h2 className='my-5 text-center text-light'>DekhoNews - Top {capatilizeWord(props.category)} Headlines</h2>
+            <h2 className='text-center text-light' style={{margin: '90px 0px'}}>DekhoNews - Top {capatilizeWord(props.category)} Headlines</h2>
             {loading && <Spinner />}
             <InfiniteScroll dataLength={articles.length} next={fetchMoreData} hasMore={articles.length !== totalResults} loader={<Spinner />}>
                 <div className="container">
